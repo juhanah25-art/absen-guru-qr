@@ -1,37 +1,103 @@
-body{
+*{
     margin:0;
     padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
     background:#1976d2;
-    font-family:Arial;
+    padding:20px;
 }
 
 .container{
-    width:90%;
-    max-width:400px;
-    margin:40px auto;
-    background:white;
-    padding:20px;
+    max-width:420px;
+    margin:auto;
+    background:#fff;
     border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.2);
+}
+
+h1{
     text-align:center;
+    font-size:50px;
+}
+
+h2{
+    text-align:center;
+    color:#1565c0;
+    margin-top:10px;
+}
+
+.container>p{
+    text-align:center;
+    margin:10px 0 20px;
+    color:#555;
+}
+
+#jam{
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:20px;
+    color:#222;
+}
+
+#reader{
+    width:100%;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.info{
+    background:#f5f5f5;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+.info p{
+    margin:8px 0;
+    font-size:16px;
+}
+
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:16px;
+    margin-bottom:15px;
 }
 
 button{
     width:100%;
-    padding:15px;
+    padding:14px;
+    background:#1976d2;
+    color:#fff;
     border:none;
-    background:#1565c0;
-    color:white;
     border-radius:8px;
     font-size:18px;
-}
-#reader{
-    width:100%;
-    max-width:300px;
-    margin:20px auto;
+    cursor:pointer;
 }
 
-#hasilQR{
-    font-size:18px;
+button:hover{
+    background:#125aa0;
+}
+
+#hasil{
+    margin-top:20px;
+    text-align:center;
     font-weight:bold;
-    color:#1565c0;
+    font-size:16px;
+}
+
+.success{
+    color:green;
+}
+
+.error{
+    color:red;
 }
