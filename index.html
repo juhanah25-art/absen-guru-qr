@@ -1,32 +1,65 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Absensi Guru</title>
 
 <link rel="stylesheet" href="style.css">
+
 <script src="https://unpkg.com/html5-qrcode"></script>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>ABSENSI GURU</h1>
+<h1>📷</h1>
 
-<h3>SD NEGERI CIKAMPEK BARAT II</h3>
+<h2>ABSENSI GURU</h2>
 
-<p id="jam"></p>
+<p>SD NEGERI CIKAMPEK BARAT II</p>
+
+<div id="jam"></div>
+
 <div id="reader"></div>
 
-<p id="hasilQR">
-Silakan scan QR Guru
+<div class="info">
+
+<p>
+<b>ID Guru :</b>
+<span id="idGuru">-</span>
 </p>
-<button id="btnTes">
-TES WEBSITE
+
+<p>
+<b>Nama Guru :</b>
+<span id="namaGuru">Belum Scan</span>
+</p>
+
+</div>
+
+<select id="status">
+
+<option value="Masuk">
+Absen Masuk
+</option>
+
+<option value="Pulang">
+Absen Pulang
+</option>
+
+</select>
+
+<button id="btnAbsen">
+
+ABSEN SEKARANG
+
 </button>
+
+<div id="hasil"></div>
 
 </div>
 
