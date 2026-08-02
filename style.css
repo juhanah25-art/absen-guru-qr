@@ -24,3 +24,14 @@ button{
     border-radius:8px;
     font-size:18px;
 }
+#reader{
+    width:100%;
+    max-width:300px;
+    margin:20px auto;
+}
+
+#hasilQR{
+    font-size:18px;
+    font-weight:bold;
+    color:#1565c0;
+}
