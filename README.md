@@ -1,2 +1,0 @@
-# absen-guru-qr
-absen
