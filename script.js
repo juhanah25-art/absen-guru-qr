@@ -78,16 +78,13 @@ function cariGuru(id) {
 
             }
 
-        })
         .catch(error => {
 
-            console.error(error);
+    console.error(error);
 
-            document.getElementById("namaGuru").innerHTML = "Server Error";
+    alert(error.message);
 
-            alert("Tidak dapat terhubung ke server.");
-
-        });
+});
 
 }
 
