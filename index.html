@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,51 +17,41 @@
 
 <div class="container">
 
-<h1>📷 ABSENSI GURU</h1>
+    <h1>📷</h1>
 
-<h3>SD NEGERI CIKAMPEK BARAT II</h3>
+    <h2>ABSENSI GURU</h2>
 
-<div id="jam"></div>
+    <p>SD NEGERI CIKAMPEK BARAT II</p>
 
-<br>
+    <div id="jam"></div>
 
-<label><b>Pilih Kamera</b></label>
+    <select id="kamera">
+        <option>Memuat kamera...</option>
+    </select>
 
-<select id="kamera"></select>
+    <div id="reader"></div>
 
-<br><br>
+    <div class="info">
 
-<div id="reader"></div>
+        <h3>ID Guru</h3>
 
-<div class="info">
+        <div id="idGuru">Belum Scan</div>
 
-<p>
-<b>ID Guru :</b>
-<span id="idGuru">-</span>
-</p>
+    </div>
 
-<p>
-<b>Nama Guru :</b>
-<span id="namaGuru">Belum Scan</span>
-</p>
+    <select id="status">
 
-</div>
+        <option value="Masuk">Absen Masuk</option>
 
-<select id="status">
+        <option value="Pulang">Absen Pulang</option>
 
-<option value="Masuk">Absen Masuk</option>
+    </select>
 
-<option value="Pulang">Absen Pulang</option>
+    <button id="btnAbsen">
 
-</select>
+        ABSEN SEKARANG
 
-<br><br>
-
-<button onclick="absen(document.getElementById('status').value)">
-ABSEN SEKARANG
-</button>
-
-<div id="hasil"></div>
+    </button>
 
 </div>
 
