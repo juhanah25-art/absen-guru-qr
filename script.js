@@ -38,13 +38,16 @@ updateJam();
 
 function onScanSuccess(decodedText){
 
-idGuru = decodedText;
+    alert("Hasil Scan: " + decodedText);
 
-document.getElementById("idGuru").innerHTML=idGuru;
+    idGuru = decodedText.trim();
 
-cariGuru(idGuru);
+    document.getElementById("idGuru").innerHTML = idGuru;
 
-}// =============================
+    cariGuru(idGuru);
+
+}
+// =============================
 // CARI GURU
 // =============================
 
@@ -176,17 +179,7 @@ if(!sudahScan){
 
 sudahScan=true;
 
-function onScanSuccess(decodedText){
-
-alert("Hasil Scan: " + decodedText);
-
-idGuru = decodedText;
-
-document.getElementById("idGuru").innerHTML = idGuru;
-
-cariGuru(idGuru);
-
-}
+onScanSuccess(decodedText);
 
 setTimeout(function(){
 
