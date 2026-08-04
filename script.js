@@ -252,3 +252,14 @@ function mulaiScanner(idCamera) {
     });
 
 }
+// =============================
+// TOMBOL ABSEN
+// =============================
+
+document.getElementById("btnAbsen").addEventListener("click", function () {
+
+    const status = document.getElementById("status").value;
+
+    absen(status);
+
+});
