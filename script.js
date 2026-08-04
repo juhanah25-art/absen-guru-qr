@@ -164,8 +164,20 @@ btnAbsen.addEventListener("click", () => {
 
     )
 
-    .then(res => res.json())
+    .then(async (res) => {
 
+    console.log("Status:", res.status);
+    console.log("OK:", res.ok);
+
+    const text = await res.text();
+
+    console.log(text);
+
+    alert(text);
+
+    return JSON.parse(text);
+
+})
     .then(data => {
 
         if(data.status){
