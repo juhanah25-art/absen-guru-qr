@@ -176,7 +176,17 @@ if(!sudahScan){
 
 sudahScan=true;
 
-onScanSuccess(decodedText);
+function onScanSuccess(decodedText){
+
+alert("Hasil Scan: " + decodedText);
+
+idGuru = decodedText;
+
+document.getElementById("idGuru").innerHTML = idGuru;
+
+cariGuru(idGuru);
+
+}
 
 setTimeout(function(){
 
