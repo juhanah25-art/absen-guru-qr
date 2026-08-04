@@ -156,65 +156,33 @@ btnAbsen.addEventListener("click", () => {
     const status = document.getElementById("status").value;
 
     fetch(
+    API +
+    "?aksi=absen" +
+    "&id=" + encodeURIComponent(idGuru) +
+    "&status=" + encodeURIComponent(status)
+)
 
-        API +
-        "?aksi=absen" +
-        "&id=" + encodeURIComponent(idGuru) +
-        "&status=" + encodeURIComponent(status)
+.then(async (response) => {
 
-    )
-
-    .then(async (res) => {
-
-    console.log("Status:", res.status);
-    console.log("OK:", res.ok);
-
-    const text = await res.text();
+    const text = await response.text();
 
     console.log(text);
 
     alert(text);
 
-    return JSON.parse(text);
+})
+
+.catch(error => {
+
+    console.error(error);
+
+    alert(error.message);
 
 })
-    .then(data => {
 
-        if(data.status){
+.finally(() => {
 
-            alert(
-                "✅ ABSENSI BERHASIL\n\n" +
-                "Nama : " + data.nama +
-                "\nStatus : " + data.statusAbsen +
-                "\nTanggal : " + data.tanggal +
-                "\nJam : " + data.jam
-            );
-
-            idGuru = "";
-
-            document.getElementById("idGuru").innerHTML = "Belum Scan";
-
-        }else{
-
-            alert("❌ " + data.pesan);
-
-        }
-
-    })
-
-    .catch(err => {
-
-        console.error(err);
-
-        alert("Tidak dapat terhubung ke server.");
-
-    })
-
-    .finally(() => {
-
-        btnAbsen.disabled = false;
-        btnAbsen.innerHTML = "ABSEN SEKARANG";
-
-    });
+    btnAbsen.disabled = false;
+    btnAbsen.innerHTML = "ABSEN SEKARANG";
 
 });
