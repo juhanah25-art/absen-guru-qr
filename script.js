@@ -2,7 +2,7 @@
 // KONFIGURASI
 // ======================================
 
-const API = "https://script.google.com/macros/s/AKfycbyAzRESS17oc5ABmxl9--Nd1yoER3E0kzryWecBK7FVW9xPJos7GAW56ldxYb6_J3fOJA/exec";
+const API = "https://script.google.com/macros/s/AKfycbzniwbPCeK4hA7UXnU5kyAhSAVMJnjILloPJKa1EyQtD0DS3yJXZdpKVcryHUVLZKseSA/exec";
 
 let html5QrCode;
 let idGuru = "";
