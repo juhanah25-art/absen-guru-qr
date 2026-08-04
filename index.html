@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,13 +16,19 @@
 
 <div class="container">
 
-<h1>📷</h1>
+<h1>📷 ABSENSI GURU</h1>
 
-<h2>ABSENSI GURU</h2>
-
-<p>SD NEGERI CIKAMPEK BARAT II</p>
+<h3>SD NEGERI CIKAMPEK BARAT II</h3>
 
 <div id="jam"></div>
+
+<br>
+
+<label><b>Pilih Kamera</b></label>
+
+<select id="kamera"></select>
+
+<br><br>
 
 <div id="reader"></div>
 
@@ -43,20 +48,16 @@
 
 <select id="status">
 
-<option value="Masuk">
-Absen Masuk
-</option>
+<option value="Masuk">Absen Masuk</option>
 
-<option value="Pulang">
-Absen Pulang
-</option>
+<option value="Pulang">Absen Pulang</option>
 
 </select>
 
-<button
-    id="btnAbsen"
-    onclick="absen(document.getElementById('status').value)">
-    ABSEN SEKARANG
+<br><br>
+
+<button onclick="absen(document.getElementById('status').value)">
+ABSEN SEKARANG
 </button>
 
 <div id="hasil"></div>
