@@ -152,26 +152,43 @@ let sudahScan = false;
 
 const html5QrCode = new Html5Qrcode("reader");
 
-Html5Qrcode.getCameras()
+Html5Qrcode.getCameras().then(cameras => {
 
-.then(cameras=>{
+    if (cameras && cameras.length) {
 
-if(cameras && cameras.length){
+        // Cari kamera belakang
+        let cameraId = cameras[0].id;
 
-html5QrCode.start(
+        for (let i = 0; i < cameras.length; i++) {
 
-cameras[0].id,
+            const nama = cameras[i].label.toLowerCase();
 
-{
+            if (
+                nama.includes("back") ||
+                nama.includes("rear") ||
+                nama.includes("environment")
+            ) {
+                cameraId = cameras[i].id;
+                break;
+            }
 
-fps:10,
+        }
 
-qrbox:{
-width:250,
-height:250
-}
+        html5QrCode.start(
+            cameraId,
+            {
+                fps: 10,
+                qrbox: {
+                    width: 250,
+                    height: 250
+                }
+            },
+            onScanSuccess
+        );
 
-},
+    }
+
+});
 
 (decodedText)=>{
 
