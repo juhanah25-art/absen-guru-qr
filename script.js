@@ -2,32 +2,31 @@
 // KONFIGURASI
 // =============================
 
-const API =
-"https://script.google.com/macros/s/AKfycbyAzRESS17oc5ABmxl9--Nd1yoER3E0kzryWecBK7FVW9xPJos7GAW56ldxYb6_J3fOJA/exec";
+const API = "https://script.google.com/macros/s/AKfycbyAzRESS17oc5ABmxl9--Nd1yoER3E0kzryWecBK7FVW9xPJos7GAW56ldxYb6_J3fOJA/exec";
 
 let idGuru = "";
 let namaGuru = "";
+let html5QrCode = null;
+let cameraId = "";
+let sudahScan = false;
 
 
 // =============================
 // JAM DIGITAL
 // =============================
 
-function updateJam(){
+function updateJam() {
 
-const sekarang = new Date();
+    const sekarang = new Date();
 
-document.getElementById("jam").innerHTML=
-
-sekarang.toLocaleDateString("id-ID")+
-
-"<br>"+
-
-sekarang.toLocaleTimeString("id-ID");
+    document.getElementById("jam").innerHTML =
+        sekarang.toLocaleDateString("id-ID") +
+        "<br>" +
+        sekarang.toLocaleTimeString("id-ID");
 
 }
 
-setInterval(updateJam,1000);
+setInterval(updateJam, 1000);
 
 updateJam();
 
@@ -36,9 +35,11 @@ updateJam();
 // SETELAH QR BERHASIL DI SCAN
 // =============================
 
-function onScanSuccess(decodedText){
+function onScanSuccess(decodedText) {
 
-    alert("Hasil Scan: " + decodedText);
+    if (sudahScan) return;
+
+    sudahScan = true;
 
     idGuru = decodedText.trim();
 
@@ -46,187 +47,208 @@ function onScanSuccess(decodedText){
 
     cariGuru(idGuru);
 
+    setTimeout(() => {
+
+        sudahScan = false;
+
+    }, 3000);
+
 }
 // =============================
 // CARI GURU
 // =============================
 
-function cariGuru(id){
+function cariGuru(id) {
 
-fetch(
-API+"?aksi=guru&id="+encodeURIComponent(id)
-)
+    fetch(API + "?aksi=guru&id=" + encodeURIComponent(id))
+        .then(response => response.json())
+        .then(data => {
 
-.then(response=>response.json())
+            if (data.status) {
 
-.then(data=>{
+                namaGuru = data.nama;
 
-if(data.status){
+                document.getElementById("namaGuru").innerHTML = data.nama;
 
-namaGuru=data.nama;
+            } else {
 
-document.getElementById("namaGuru").innerHTML=data.nama;
+                namaGuru = "";
 
-}else{
+                document.getElementById("namaGuru").innerHTML = "Guru tidak ditemukan";
 
-namaGuru="";
+            }
 
-document.getElementById("namaGuru").innerHTML=
-"Guru tidak ditemukan";
+        })
+        .catch(error => {
+
+            console.error(error);
+
+            document.getElementById("namaGuru").innerHTML = "Server Error";
+
+            alert("Tidak dapat terhubung ke server.");
+
+        });
 
 }
 
-})
 
-.catch(error=>{
-
-console.log(error);
-
-alert("Tidak dapat terhubung ke server.");
-
-});
-
-}// =============================
+// =============================
 // ABSEN
 // =============================
 
-function absen(status){
+function absen(status) {
 
-if(idGuru==""){
+    if (idGuru == "") {
 
-alert("Silakan scan QR terlebih dahulu.");
+        alert("Silakan scan QR terlebih dahulu.");
 
-return;
+        return;
 
-}
+    }
 
-fetch(
+    fetch(
+        API +
+        "?aksi=absen" +
+        "&id=" + encodeURIComponent(idGuru) +
+        "&status=" + encodeURIComponent(status)
+    )
 
-API+
+    .then(response => response.json())
 
-"?aksi=absen"+
+    .then(data => {
 
-"&id="+encodeURIComponent(idGuru)+
+        if (data.status) {
 
-"&status="+encodeURIComponent(status)
+            alert(
+                "✅ " + data.pesan +
+                "\n\nNama : " + data.nama +
+                "\nTanggal : " + data.tanggal +
+                "\nJam : " + data.jam
+            );
 
-)
+            // Reset setelah berhasil absen
+            idGuru = "";
+            namaGuru = "";
 
-.then(response=>response.json())
+            document.getElementById("idGuru").innerHTML = "-";
+            document.getElementById("namaGuru").innerHTML = "Belum Scan";
 
-.then(data=>{
+        } else {
 
-if(data.status){
+            alert(data.pesan);
 
-alert(
+        }
 
-"✅ "+data.pesan+
+    })
 
-"\n\nNama : "+data.nama+
+    .catch(error => {
 
-"\nJam : "+data.jam
+        console.error(error);
 
-);
+        alert("Tidak dapat terhubung ke server.");
 
-}else{
-
-alert(data.pesan);
-
-}
-
-})
-
-.catch(error=>{
-
-console.log(error);
-
-alert("Server tidak dapat dihubungi.");
-
-});
+    });
 
 }
 // =============================
-// SCANNER QR
+// SCANNER QR + PILIH KAMERA
 // =============================
 
-let sudahScan = false;
+const kameraSelect = document.getElementById("kamera");
 
-const html5QrCode = new Html5Qrcode("reader");
+html5QrCode = new Html5Qrcode("reader");
 
 Html5Qrcode.getCameras()
 
 .then(cameras => {
 
-  if (cameras && cameras.length) {
+    if (!cameras || cameras.length === 0) {
 
-    let cameraId = cameras[0].id;
+        alert("Kamera tidak ditemukan.");
 
-    // Cari kamera belakang jika ada
-    for (let i = 0; i < cameras.length; i++) {
-
-      const nama = cameras[i].label.toLowerCase();
-
-      if (
-        nama.includes("back") ||
-        nama.includes("rear") ||
-        nama.includes("environment")
-      ) {
-
-        cameraId = cameras[i].id;
-        break;
-
-      }
+        return;
 
     }
 
-    html5QrCode.start(
+    // Isi daftar kamera
+    cameras.forEach(cam => {
 
-      cameraId,
+        const option = document.createElement("option");
 
-      {
-        fps: 10,
-        qrbox: {
-          width: 250,
-          height: 250
-        }
-      },
+        option.value = cam.id;
+        option.text = cam.label || "Camera";
 
-      (decodedText) => {
+        kameraSelect.appendChild(option);
 
-        if (!sudahScan) {
+    });
 
-          sudahScan = true;
+    // Pilih kamera pertama
+    cameraId = cameras[0].id;
 
-          onScanSuccess(decodedText);
+    kameraSelect.value = cameraId;
 
-          setTimeout(() => {
+    mulaiScanner(cameraId);
 
-            sudahScan = false;
+    // Jika pengguna mengganti kamera
+    kameraSelect.addEventListener("change", function () {
 
-          }, 3000);
+        cameraId = this.value;
 
-        }
+        html5QrCode.stop()
 
-      },
+        .then(() => {
 
-      (errorMessage) => {
-        // Abaikan error scan
-      }
+            mulaiScanner(cameraId);
 
-    );
+        })
 
-  } else {
+        .catch(err => console.log(err));
 
-    alert("Kamera tidak ditemukan.");
-
-  }
+    });
 
 })
 
 .catch(error => {
 
-  console.log(error);
+    console.error(error);
 
-  alert("Tidak dapat mengakses kamera.");
+    alert("Tidak dapat mengakses kamera.");
 
 });
+
+
+// =============================
+// MULAI SCANNER
+// =============================
+
+function mulaiScanner(idCamera) {
+
+    html5QrCode.start(
+
+        idCamera,
+
+        {
+            fps: 10,
+            qrbox: {
+                width: 250,
+                height: 250
+            }
+        },
+
+        onScanSuccess,
+
+        errorMessage => {
+            // Abaikan error scan
+        }
+
+    )
+
+    .catch(err => {
+
+        console.error(err);
+
+        alert("Gagal membuka kamera.");
+
+    });
+
+}
