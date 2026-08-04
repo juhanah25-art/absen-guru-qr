@@ -33,6 +33,8 @@ updateJam();
 
 function onScanSuccess(decodedText){
 
+    alert("Hasil Scan:\n" + decodedText);
+
     if(sudahScan) return;
 
     sudahScan = true;
@@ -42,9 +44,7 @@ function onScanSuccess(decodedText){
     document.getElementById("idGuru").innerHTML = idGuru;
 
     setTimeout(()=>{
-
         sudahScan = false;
-
     },3000);
 
 }
